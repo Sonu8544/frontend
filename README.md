@@ -5,3 +5,6 @@
 - Install tailwid css 
 - Install Daisy Ui 
 - Add NavBar component
+- Create NavBar in seprate component
+- Install Tract router Dom
+- 
