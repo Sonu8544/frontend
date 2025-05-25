@@ -8,6 +8,10 @@
 - Create NavBar in seprate component
 - Install Tract router Dom
 - create a Login page
+- install Axios
+- CORS install cors pacage set origin with credentials true in backend
+- in frontend pass with credentials true in axios request
+- 
 - 
 
 
