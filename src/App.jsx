@@ -13,7 +13,6 @@ function App() {
             <Route path="/login" element={<> <Login /> </>} />
             <Route path="/logout" element={<> <Logout /> </>} />
           </Route>
-
         </Routes>
       </BrowserRouter>
     </>
