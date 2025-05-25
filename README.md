@@ -1,12 +1,14 @@
-# Tinder React
+# Dev Tinder Web
 
-- create a Vite + React Applications
+- create a Vite + React
 - Remove every thing and Add Hello World
 - Install tailwid css 
 - Install Daisy Ui 
 - Add NavBar component
 - Create NavBar in seprate component
 - Install Tract router Dom
+- create a Login page
+- 
 
 
 - Body
