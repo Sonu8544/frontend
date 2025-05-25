@@ -7,7 +7,6 @@ function App() {
 
   return (
     <>
-
       <BrowserRouter basename="/" >
         <Routes>
           <Route path="/" element={<> <Body /> </>} >
