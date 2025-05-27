@@ -24,10 +24,10 @@ const Body = () => {
             dispatch(addUser(res.data))
         } catch (error) {
             if (error.response && error.response.status === 401) {
-                // If unauthorized, redirect to login
                 navigate('/login');
+            } else {
+                console.log("Error fetching user data:", error);
             }
-            console.error("Error fetching user data:", error);
         }
     }
 
