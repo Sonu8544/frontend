@@ -16,6 +16,7 @@ const EditProfile = ({ user }) => {
     const [age, setAge] = useState(user.age || '')
     const [gender, setGender] = useState(user.gender || '')
     const [error, setError] = useState(null);
+    const [showToast, setShowToast] = useState(false);
     const dispatch = useDispatch();
 
     const saveProfile = async () => {
@@ -28,6 +29,10 @@ const EditProfile = ({ user }) => {
                 age,
             }, { withCredentials: true });
             dispatch(addUser(res?.data?.data || {}));
+            setShowToast(true);
+            setTimeout(() => {
+                setShowToast(false);
+            }, 3000); // Hide toast after 3 seconds
             console.log("Profile updated successfully:", res.data);
         } catch (error) {
             console.error("Error saving profile:", error);
@@ -36,56 +41,64 @@ const EditProfile = ({ user }) => {
     }
 
     return (
-        <div className='flex justify-center items-center gap-10'>
-            <div className="flex justify-center mt-10">
-                <div className="card bg-base-300 w-96 shadow-xl">
-                    <div className="card-body">
-                        <h2 className="card-title justify-center mb-6">Edit Profile</h2>
-                        <label className="form-control w-full max-w-xs">
-                            <div className="label">
-                                <span className="label-text">First Name</span>
-                            </div>
-                            <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" className="input input-bordered w-full max-w-xs" />
-                        </label>
-                        <label className="form-control w-full max-w-xs">
-                            <div className="label">
-                                <span className="label-text">Last Name</span>
-                            </div>
-                            <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Last Name" className="input input-bordered w-full max-w-xs" />
-                        </label>
-                        <label className="form-control w-full max-w-xs">
-                            <div className="label">
-                                <span className="label-text">Photo URL</span>
-                            </div>
-                            <input type="text" value={photoUrl} onChange={(e) => setPhotoUrl(e.target.value)} placeholder="Photo URL" className="input input-bordered w-full max-w-xs" />
-                        </label>
-                        <label className="form-control w-full max-w-xs">
-                            <div className="label">
-                                <span className="label-text">Age</span>
-                            </div>
-                            <input type="number" value={age} onChange={(e) => setAge(e.target.value)} placeholder="Age" className="input input-bordered w-full max-w-xs" />
-                        </label>
-                        <label className="form-control w-full max-w-xs">
-                            <div className="label">
-                                <span className="label-text">Gender</span>
-                            </div>
-                            <input type="text" value={gender} onChange={(e) => setGender(e.target.value)} placeholder="Gender" className="input input-bordered w-full max-w-xs" />
-                        </label>
-                        <label className="form-control w-full max-w-xs">
-                            <div className="label">
-                                <span className="label-text">About</span>
-                            </div>
-                            <textarea type="textarea" value={about} onChange={(e) => setAbout(e.target.value)} placeholder="About Me" className="textarea" />
-                        </label>
+        <>
+            <div className='flex justify-center items-center gap-10'>
+                <div className="flex justify-center mt-10">
+                    <div className="card bg-base-300 w-96 shadow-xl">
+                        <div className="card-body">
+                            <h2 className="card-title justify-center mb-6">Edit Profile</h2>
+                            <label className="form-control w-full max-w-xs">
+                                <div className="label">
+                                    <span className="label-text">First Name</span>
+                                </div>
+                                <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" className="input input-bordered w-full max-w-xs" />
+                            </label>
+                            <label className="form-control w-full max-w-xs">
+                                <div className="label">
+                                    <span className="label-text">Last Name</span>
+                                </div>
+                                <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Last Name" className="input input-bordered w-full max-w-xs" />
+                            </label>
+                            <label className="form-control w-full max-w-xs">
+                                <div className="label">
+                                    <span className="label-text">Photo URL</span>
+                                </div>
+                                <input type="text" value={photoUrl} onChange={(e) => setPhotoUrl(e.target.value)} placeholder="Photo URL" className="input input-bordered w-full max-w-xs" />
+                            </label>
+                            <label className="form-control w-full max-w-xs">
+                                <div className="label">
+                                    <span className="label-text">Age</span>
+                                </div>
+                                <input type="number" value={age} onChange={(e) => setAge(e.target.value)} placeholder="Age" className="input input-bordered w-full max-w-xs" />
+                            </label>
+                            <label className="form-control w-full max-w-xs">
+                                <div className="label">
+                                    <span className="label-text">Gender</span>
+                                </div>
+                                <input type="text" value={gender} onChange={(e) => setGender(e.target.value)} placeholder="Gender" className="input input-bordered w-full max-w-xs" />
+                            </label>
+                            <label className="form-control w-full max-w-xs">
+                                <div className="label">
+                                    <span className="label-text">About</span>
+                                </div>
+                                <textarea type="textarea" value={about} onChange={(e) => setAbout(e.target.value)} placeholder="About Me" className="textarea" />
+                            </label>
 
-                        <div className="card-actions justify-center mt-6">
-                            <button className="btn btn-outline btn-primary w-full" onClick={saveProfile}>Save Profile</button>
+                            <div className="card-actions justify-center mt-6">
+                                <button className="btn btn-outline btn-primary w-full" onClick={saveProfile}>Save Profile</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <UserCard user={{ firstName, lastName, photoUrl, about, age, gender }} />
             </div>
-            <UserCard user={{ firstName, lastName, photoUrl, about, age, gender }} />
-        </div>
+
+            {showToast && <div className="toast toast-top toast-end">
+                <div className="alert alert-success">
+                    <span>Profile update successfully.</span>
+                </div>
+            </div>}
+        </>
     )
 }
 
