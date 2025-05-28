@@ -4,6 +4,7 @@ import axios from 'axios';
 import { BASE_URL } from '../utils/constant';
 import { addUser } from '../utils/userSlice';
 import UserCard from "./UserCard";
+import toast from 'react-hot-toast';
 
 const EditProfile = () => {
     const user = useSelector((state) => state.user);
@@ -17,7 +18,6 @@ const EditProfile = () => {
     const [gender, setGender] = useState('');
     const [error, setError] = useState(null);
 
-    // Initialize form with user data
     useEffect(() => {
         if (user) {
             setFirstName(user.firstName || '');
@@ -33,14 +33,7 @@ const EditProfile = () => {
         try {
             const res = await axios.patch(
                 `${BASE_URL}/profile/edit`,
-                {
-                    firstName,
-                    lastName,
-                    photoUrl,
-                    about,
-                    age,
-                    gender,
-                },
+                { firstName, lastName, photoUrl, about, age, gender },
                 { withCredentials: true }
             );
 
@@ -48,12 +41,14 @@ const EditProfile = () => {
 
             if (updatedUser) {
                 dispatch(addUser(updatedUser));
+                toast.success('Profile updated successfully!'); 
             } else {
                 throw new Error("No user data returned from API");
             }
         } catch (error) {
             console.error("Error saving profile:", error);
-            setError(error.message || "An error occurred while saving the profile.");
+            setError(error.ERROR || "An error occurred while saving the profile.");
+            toast.error('Failed to update profile.'); 
         }
     };
 

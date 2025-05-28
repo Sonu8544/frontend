@@ -7,6 +7,7 @@ import { BASE_URL } from '../utils/constant'
 import { useDispatch, useSelector } from 'react-redux'
 import { addUser } from '../utils/userSlice'
 import { useEffect } from 'react'
+import ToastProvider from './ToastProvider'
 
 
 const Body = () => {
@@ -40,6 +41,7 @@ const Body = () => {
             <NavBar />
             <Outlet />
             {/* <Footer /> */}
+            <ToastProvider />
         </div>
     )
 }
