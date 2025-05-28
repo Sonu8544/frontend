@@ -8,11 +8,11 @@ const UserCard = ({ user }) => {
     return (
         <div className="flex justify-center my-8">
             <div className="card bg-base-200 w-96 shadow-sm">
-                <figure>
+                {photoUrl && <figure>
                     <img
                         src={photoUrl}
                         alt="photo" />
-                </figure>
+                </figure>}
                 <div className="card-body">
                     <h2 className="card-title">{firstName + " " + lastName}</h2>
                     {age && gender && <p>{age + ' ' + gender}</p>}

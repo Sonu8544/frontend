@@ -32,7 +32,7 @@ const NavBar = () => {
                 <div className="flex-1">
                     <Link to="/" className="btn btn-ghost text-xl">👩‍💻 Dating APP</Link>
                 </div>
-                {user && <div className="flex-none gap-2"><p>Welcome {user.firstName}</p>
+                {user && <div className="flex-none gap-2"><p>{user.firstName}</p>
                     <div className="dropdown dropdown-end mx-5">
 
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
