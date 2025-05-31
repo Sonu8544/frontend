@@ -26,6 +26,15 @@ const Feed = () => {
     getFeed();
   }, []);
 
+  if (!feed) return null;
+  if (feed.length <= 0) {
+    return (
+      <div className="text-center mt-10">
+        <h1 className="text-2xl font-bold">No More User Found</h1>
+      </div>
+    );
+  }
+
   return (
     feed && (
       <div>

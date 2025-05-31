@@ -43,7 +43,7 @@ const Request = () => {
 
     return (
         <div>
-            <h1 className="text-2xl font-bold text-center mt-10 mb-4 text-white">Connections!</h1>
+            <h1 className="text-2xl font-bold text-center mt-10 mb-4 text-white">Connections Requests!</h1>
             <div className="relative flex w-[500px] flex-col rounded-lg border border-base-300 bg-base-200 shadow-sm m-auto">
                 <nav className="flex min-w-[300px] flex-col gap-1 p-1.5">
                     {request.map((requestItem) => {
