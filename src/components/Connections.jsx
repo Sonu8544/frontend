@@ -14,7 +14,6 @@ const Connections = () => {
                 withCredentials: true
             });
             dispatch(addConnections(res.data.data))
-            console.log("Connections fetched:", res.data.data);
         } catch (error) {
             console.error("Error fetching connections:", error);
         }
@@ -37,32 +36,36 @@ const Connections = () => {
     return (
         <div>
             <h1 className="text-2xl font-bold text-center mt-10 mb-4 text-white">Connections!</h1>
-            <div class="relative flex w-96 flex-col rounded-lg border border-base-300 bg-base-200 shadow-sm m-auto">
-                <nav class="flex min-w-[240px] flex-col gap-1 p-1.5">
-                    {connections.map((connection) => (
-                        <div
-                            role="button"
-                            class="flex w-full items-center rounded-md p-3 transition-all hover:bg-base-100 focus:bg-base-100 active:bg-base-100"
-                        >
-                            <div class="mr-4 grid place-items-center">
-                                <img
-                                    alt="candice"
-                                    src={connection.photoUrl}
-                                    class="relative inline-block h-12 w-12 !rounded-full  object-cover object-center"
-                                />
+            <div className="relative flex w-96 flex-col rounded-lg border border-base-300 bg-base-200 shadow-sm m-auto">
+                <nav className="flex min-w-[240px] flex-col gap-1 p-1.5">
+                    {connections.map((connection) => {
+                        const { _id, firstName, lastName, photoUrl, about, age, gender } = connection;
+                        return (
+                            <div
+                                key={_id}
+                                role="button"
+                                className="flex w-full items-center rounded-md p-3 transition-all hover:bg-base-100 focus:bg-base-100 active:bg-base-100"
+                            >
+                                <div className="mr-4 grid place-items-center">
+                                    <img
+                                        alt="candice"
+                                        src={photoUrl}
+                                        className="relative inline-block h-12 w-12 !rounded-full  object-cover object-center"
+                                    />
+                                </div>
+                                <div>
+                                    <h6 className="font-medium">
+                                        {firstName + ' ' + lastName}
+                                    </h6>
+                                    <p className="text-sm">
+                                        {(about?.split(' ').slice(0, 7).join(' ') || 'No bio available') +
+                                            (about?.split(' ').length > 7 ? '...' : '')}
+                                    </p>
+                                </div>
                             </div>
-                            <div>
-                                <h6 class="font-medium">
-                                    {connection.firstName + ' ' + connection.lastName}
-                                </h6>
-                                <p class="text-sm">
-                                    {(connection.about?.split(' ').slice(0, 7).join(' ') || 'No bio available') +
-                                        (connection.about?.split(' ').length > 7 ? '...' : '')}
-                                </p>
-                            </div>
-                        </div>
+                        )
 
-                    ))}
+                    })}
                 </nav>
             </div>
         </div>
