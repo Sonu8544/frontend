@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/constant';
 import { removeUser } from '../utils/userSlice';
+import { clearFeed } from '../utils/feedSlice';
 
 const NavBar = () => {
     // Subscribe to the user state from the Redux store
@@ -19,6 +20,7 @@ const NavBar = () => {
                 withCredentials: true 
             })
             dispatch(removeUser());
+            dispatch(clearFeed());
             return navigate('/login'); 
 
         } catch (error) {
