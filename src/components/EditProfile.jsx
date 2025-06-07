@@ -16,6 +16,9 @@ const EditProfile = () => {
     const [about, setAbout] = useState('');
     const [age, setAge] = useState('');
     const [gender, setGender] = useState('');
+    const [skills, setSkills] = useState([]);
+    const [skillsInput, setSkillsInput] = useState('');
+
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -26,6 +29,8 @@ const EditProfile = () => {
             setAbout(user.about || '');
             setAge(user.age || '');
             setGender(user.gender || '');
+            setSkills(user.skills || []);
+            setSkillsInput((user.skills || []).join(', '));
         }
     }, [user]);
 
@@ -33,7 +38,7 @@ const EditProfile = () => {
         try {
             const res = await axios.patch(
                 `${BASE_URL}/profile/edit`,
-                { firstName, lastName, photoUrl, about, age, gender },
+                { firstName, lastName, photoUrl, about, age, gender, skills },
                 { withCredentials: true }
             );
 
@@ -41,14 +46,14 @@ const EditProfile = () => {
 
             if (updatedUser) {
                 dispatch(addUser(updatedUser));
-                toast.success('Profile updated successfully!'); 
+                toast.success('Profile updated successfully!');
             } else {
                 throw new Error("No user data returned from API");
             }
         } catch (error) {
             console.error("Error saving profile:", error);
             setError(error.ERROR || "An error occurred while saving the profile.");
-            toast.error('Failed to update profile.'); 
+            toast.error('Failed to update profile.');
         }
     };
 
@@ -113,6 +118,25 @@ const EditProfile = () => {
                             value={gender}
                             onChange={(e) => setGender(e.target.value)}
                             placeholder="Gender"
+                            className="input input-bordered w-full max-w-xs"
+                        />
+                    </label>
+
+                    <label className="form-control w-full max-w-xs mt-4">
+                        <span className="label-text">Interests</span>
+                        <input
+                            type="text"
+                            value={skillsInput}
+                            onChange={(e) => {
+                                const input = e.target.value;
+                                setSkillsInput(input); // keep as raw input
+                                const parsed = input
+                                    .split(',')
+                                    .map(skill => skill.trim())
+                                    .filter(skill => skill);
+                                setSkills(parsed); // update actual array
+                            }}
+                            placeholder="Skills (comma separated)"
                             className="input input-bordered w-full max-w-xs"
                         />
                     </label>
