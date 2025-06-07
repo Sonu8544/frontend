@@ -5,6 +5,7 @@ import { BASE_URL } from '../utils/constant';
 import { addUser } from '../utils/userSlice';
 import UserCard from "./UserCard";
 import toast from 'react-hot-toast';
+import EditPrifileCard from './EditPrifileCard';
 
 const EditProfile = () => {
     const user = useSelector((state) => state.user);
@@ -12,38 +13,57 @@ const EditProfile = () => {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [photoUrl, setPhotoUrl] = useState('');
+    const [photo, setPhoto] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState('');
     const [about, setAbout] = useState('');
     const [age, setAge] = useState('');
     const [gender, setGender] = useState('');
     const [skills, setSkills] = useState([]);
     const [skillsInput, setSkillsInput] = useState('');
-
     const [error, setError] = useState(null);
 
     useEffect(() => {
         if (user) {
             setFirstName(user.firstName || '');
             setLastName(user.lastName || '');
-            setPhotoUrl(user.photoUrl || '');
             setAbout(user.about || '');
             setAge(user.age || '');
             setGender(user.gender || '');
             setSkills(user.skills || []);
             setSkillsInput((user.skills || []).join(', '));
+            if (user.photo) {
+                setPreviewUrl(`data:image/jpeg;base64,${user.photo}`);
+            }
         }
     }, [user]);
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setPhoto(file);
+        if (file) {
+            setPreviewUrl(URL.createObjectURL(file));
+        }
+    };
+
     const saveProfile = async () => {
         try {
-            const res = await axios.patch(
-                `${BASE_URL}/profile/edit`,
-                { firstName, lastName, photoUrl, about, age, gender, skills },
-                { withCredentials: true }
-            );
+            const formData = new FormData();
+            formData.append("firstName", firstName);
+            formData.append("lastName", lastName);
+            formData.append("about", about);
+            formData.append("age", age);
+            formData.append("gender", gender);
+            skills.forEach(skill => formData.append("skills", skill));
+            if (photo) formData.append("photo", photo);
+
+            const res = await axios.patch(`${BASE_URL}/profile/edit`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
+                withCredentials: true
+            });
 
             const updatedUser = res?.data?.user;
-
             if (updatedUser) {
                 dispatch(addUser(updatedUser));
                 toast.success('Profile updated successfully!');
@@ -52,7 +72,7 @@ const EditProfile = () => {
             }
         } catch (error) {
             console.error("Error saving profile:", error);
-            setError(error.ERROR || "An error occurred while saving the profile.");
+            setError(error.message || "An error occurred while saving the profile.");
             toast.error('Failed to update profile.');
         }
     };
@@ -90,14 +110,20 @@ const EditProfile = () => {
                     </label>
 
                     <label className="form-control w-full max-w-xs mt-4">
-                        <span className="label-text">Photo URL</span>
+                        <span className="label-text">Profile Photo</span>
                         <input
-                            type="text"
-                            value={photoUrl}
-                            onChange={(e) => setPhotoUrl(e.target.value)}
-                            placeholder="Photo URL"
-                            className="input input-bordered w-full max-w-xs"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                            className="file-input file-input-bordered w-full max-w-xs"
                         />
+                        {/* {previewUrl && (
+                            <img
+                                src={previewUrl}
+                                alt="Preview"
+                                className="w-24 h-24 mt-2 rounded-full object-cover"
+                            />
+                        )} */}
                     </label>
 
                     <label className="form-control w-full max-w-xs mt-4">
@@ -129,12 +155,12 @@ const EditProfile = () => {
                             value={skillsInput}
                             onChange={(e) => {
                                 const input = e.target.value;
-                                setSkillsInput(input); // keep as raw input
+                                setSkillsInput(input);
                                 const parsed = input
                                     .split(',')
                                     .map(skill => skill.trim())
                                     .filter(skill => skill);
-                                setSkills(parsed); // update actual array
+                                setSkills(parsed);
                             }}
                             placeholder="Skills (comma separated)"
                             className="input input-bordered w-full max-w-xs"
@@ -166,7 +192,8 @@ const EditProfile = () => {
                 </div>
             </div>
 
-            <UserCard user={{ firstName, lastName, photoUrl, about, age, gender }} />
+            {/* <UserCard user={{ firstName, lastName, about, age, gender, photo: previewUrl }} /> */}
+            <EditPrifileCard user={{ firstName, lastName, about, age, gender, photo: previewUrl }}/>
         </div>
     );
 };

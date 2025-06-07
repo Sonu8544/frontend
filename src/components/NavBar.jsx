@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React from 'react'
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/constant';
@@ -7,41 +7,46 @@ import { removeUser } from '../utils/userSlice';
 import { clearFeed } from '../utils/feedSlice';
 
 const NavBar = () => {
-    // Subscribe to the user state from the Redux store
-    // This will allow us to access the user information throughout the component
     const user = useSelector((store) => store.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // Function to handle user logout
     const handleLogout = async () => {
         try {
-            await axios.post(BASE_URL + '/logout', {}, {
-                withCredentials: true 
-            })
+            await axios.post(BASE_URL + '/logout', {}, { withCredentials: true });
             dispatch(removeUser());
             dispatch(clearFeed());
-            return navigate('/login'); 
-
+            navigate('/login');
         } catch (error) {
             console.error("Error during logout:", error);
         }
-    }
+    };
+
+    const renderProfileImage = () => {
+        if (user?.photo) {
+            return `data:image/jpeg;base64,${user.photo}`;
+        } else {
+            return 'https://static.vecteezy.com/system/resources/previews/045/711/185/non_2x/male-profile-picture-placeholder-for-social-media-forum-dating-site-chat-operator-design-social-profile-template-default-avatar-icon-flat-style-free-vector.jpg'; // fallback placeholder
+        }
+    };
 
     return (
-        <>
-            <div className="navbar bg-base-300">
-                <div className="flex-1">
-                    <Link to="/" className="btn btn-ghost text-xl">👩‍💻 Dating APP</Link>
-                </div>
-                {user && <div className="flex-none gap-2"><p>{user.firstName}</p>
-                    <div className="dropdown dropdown-end mx-5">
+        <div className="navbar bg-base-300">
+            <div className="flex-1">
+                <Link to="/" className="btn btn-ghost text-xl">💏 Connact </Link>
+                {/*🧑‍🤝‍🧑 💏 */}
+            </div>
 
+            {user && (
+                <div className="flex-none gap-2">
+                    <p>{user.firstName}</p>
+                    <div className="dropdown dropdown-end mx-5">
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
                                 <img
-                                    alt="Tailwind CSS Navbar component"
-                                    src={user.photoUrl} />
+                                    alt="Profile"
+                                    src={renderProfileImage()}
+                                />
                             </div>
                         </div>
                         <ul
@@ -55,13 +60,13 @@ const NavBar = () => {
                             </li>
                             <li><Link to="/requests">Requests</Link></li>
                             <li><Link to="/connectons">Connecton</Link></li>
-                            <li><a onClick={handleLogout} >Logout</a></li>
+                            <li><a onClick={handleLogout}>Logout</a></li>
                         </ul>
                     </div>
-                </div>}
-            </div>
-        </>
-    )
-}
+                </div>
+            )}
+        </div>
+    );
+};
 
-export default NavBar
+export default NavBar;
