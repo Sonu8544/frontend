@@ -1,5 +1,4 @@
 import React from 'react'
-import NavBar from './Navbar'
 import { Outlet, useNavigate } from 'react-router-dom'
 import Footer from './Footer'
 import axios from 'axios'
@@ -8,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addUser } from '../utils/userSlice'
 import { useEffect } from 'react'
 import ToastProvider from './ToastProvider'
+import NavBar from './NavBar'
 
 
 const Body = () => {
