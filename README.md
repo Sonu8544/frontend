@@ -21,4 +21,4 @@
 # setough Router with nested route
 - BrowserRoute > Routes > Route ="/" ( Body ) > Route nested router 
 - Outlet for bodu iitilize childere routes 
-- Create footer and inclide in bodu below outlet
+- Create footer and inclide in bodu below outlet 
