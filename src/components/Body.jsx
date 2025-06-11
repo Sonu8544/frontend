@@ -8,6 +8,7 @@ import { addUser } from '../utils/userSlice'
 import { useEffect } from 'react'
 import ToastProvider from './ToastProvider'
 import NavBar from './NavBar'
+// import NavBar from './NavBar'
 
 
 const Body = () => {
@@ -38,6 +39,7 @@ const Body = () => {
 
     return (
         <div>
+            {/* <NavBar /> */}
             <NavBar />
             <Outlet />
             {/* <Footer /> */}
