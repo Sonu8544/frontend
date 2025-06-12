@@ -22,3 +22,19 @@
 - BrowserRoute > Routes > Route ="/" ( Body ) > Route nested router 
 - Outlet for bodu iitilize childere routes 
 - Create footer and inclide in bodu below outlet 
+
+
+npm install -D @tailwindcss/postcss autoprefixer
+npm install -D tailwindcss
+nano postcss.config.js
+module.exports = {
+  plugins: [
+    require('@tailwindcss/postcss'),
+    require('autoprefixer'),
+  ],
+};
+
+mv postcss.config.js postcss.config.cjs
+rm -rf node_modules dist package-lock.json
+npm install
+npm run build
