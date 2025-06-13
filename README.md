@@ -38,3 +38,6 @@ mv postcss.config.js postcss.config.cjs
 rm -rf node_modules dist package-lock.json
 npm install
 npm run build
+
+
+sudo nano /etc/nginx/sites-available/default ( edit server block )
