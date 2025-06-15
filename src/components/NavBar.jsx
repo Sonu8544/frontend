@@ -17,15 +17,19 @@ const NavBar = () => {
     const handleLogout = async () => {
         try {
             await axios.post(BASE_URL + '/logout', {}, {
-                withCredentials: true 
+                withCredentials: true
             })
             dispatch(removeUser());
             dispatch(clearFeed());
-            return navigate('/login'); 
+            return navigate('/login');
 
         } catch (error) {
             console.error("Error during logout:", error);
         }
+    }
+
+    const goToHome = () => {
+        return navigate('/')
     }
 
     return (
@@ -53,6 +57,7 @@ const NavBar = () => {
                                     <span className="badge">New</span>
                                 </Link>
                             </li>
+                            <li onClick={goToHome}><Link>Feed</Link></li>
                             <li><Link to="/requests">Requests</Link></li>
                             <li><Link to="/connectons">Connecton</Link></li>
                             <li><a onClick={handleLogout} >Logout</a></li>

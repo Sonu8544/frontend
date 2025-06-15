@@ -41,3 +41,24 @@ npm run build
 
 
 sudo nano /etc/nginx/sites-available/default ( edit server block )
+
+
+
+# Amazon Email Service
+- select region mumbai
+- search IAM and create a new user
+- select programmatic access
+- select policy AmazonSESFullAccess
+- go to search SES  and sectough account
+- verify email address
+- go to email address and verify email
+- add CNAME record in in your domain DNS
+- wait some time to verify domain
+- go to /account/request-production-access and request production access because used full capablities
+- go to IAM got to user and settings and create access key
+- Access keys (0) create access key
+- copy access key and secret key
+- aws ses node js documentation( v3 )  https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-your-credentials.html
+-> https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/javascriptv3/example_code/ses#code-examples
+- 
+
