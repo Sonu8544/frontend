@@ -23,7 +23,7 @@ function App() {
               <Route path="/requests" element={<> <Request /> </>} />
               <Route path="/login" element={<> <Login /> </>} />
               <Route path="/logout" element={<> <Logout /> </>} />
-            </Route>
+            </Route> 
           </Routes>
         </BrowserRouter>
       </Provider>
